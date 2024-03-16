@@ -30,10 +30,10 @@ stages:
     - task: SonarCloudPrepare@1
       inputs:
         SonarCloud: 'sonarcloud-sc'
-        organization: 'sonarcloud-azure123'
+        organization: 'sonar-ad'
         scannerMode: 'Other'
-        projectKey: sonarcloud-azure123_sonar-azure
-        projectName: sonar-azure
+        projectKey: LTIMGenie_sonarCloud-project
+        projectName: sonarCloud-project
 
     - task: Maven@3
       inputs:
