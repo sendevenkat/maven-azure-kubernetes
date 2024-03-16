@@ -7,6 +7,10 @@ trigger: none
 #- main
 
 variables:
+- name: acr-serviceconnection
+  value: acr-acconection
+- name: imageRepository
+  value: acr-ltimgenie-ad
 - name: AzureServiceConnection
   value: aks-connection-ltimgenie
 - name: RgName
@@ -36,8 +40,8 @@ stages:
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
-        containerRegistry: 'acr-acconection'
-        repository: 'acr-ltimgenie-ad'
+        containerRegistry: $(acr-serviceconnection)
+        repository: $(imageRepository)
         tags: latest
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
