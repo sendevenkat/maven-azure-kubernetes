@@ -37,9 +37,12 @@ stages:
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.17'
         jdkArchitectureOption: 'x64'
+        codeCoverageToolOption: 'JaCoCo'
+        isJacocoCoverageReportXML: true
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'package'
+
         
     - task: Docker@2
       displayName: Build and push an image to container registry
