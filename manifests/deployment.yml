@@ -17,6 +17,6 @@ spec:
       containers:
       - name: ad-ltigenie-container
         image: ltimacrdemo.azurecr.io/acr-ltimgenie-ad:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
