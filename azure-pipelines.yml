@@ -32,6 +32,8 @@ stages:
         SonarCloud: 'sonarcloud-sc'
         organization: 'sonarcloud-azure123'
         scannerMode: 'Other'
+        projectKey: sonarcloud-azure123_sonar-azure
+        projectName: sonar-azure
 
     - task: Maven@3
       inputs:
