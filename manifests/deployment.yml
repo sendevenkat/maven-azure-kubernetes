@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment  
 metadata:
-  name: azure-ltigenie-dep
+  name: ad-ltigenie-dep
   labels:
-    app: azure-ltigenie
+    app: ad-ltigenie
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: azure-ltigenie
+      app: ad-ltigenie
   template:
     metadata:
       labels:
-        app: azure-ltigenie
+        app: ad-ltigenie
     spec:
       containers:
-      - name: azure-ltigenie-container
+      - name: ad-ltigenie-container
         image: ltimacrdemo.azurecr.io/acr-ltimgenie-ad:latest
         imagePullPolicy: IfNotPresent
         ports:
