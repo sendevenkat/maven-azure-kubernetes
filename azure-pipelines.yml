@@ -40,6 +40,18 @@ stages:
         tags: latest
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+    
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: 'manifests/'
+        Contents: '**/*.yml'
+        TargetFolder: '$(Pipeline.Workspace)/manifests'
+        
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/manifests'
+        artifact: 'manifest'
+        publishLocation: 'pipeline'
 
 - stage: Deploy  
   displayName: Deploy stage
@@ -65,5 +77,5 @@ stages:
                     #namespace: dev
                   
                     manifests: |
-                      $(Pipeline.Workspace)/manifests/*.yml
+                      $(Pipeline.Workspace)/manifest/*.yml
 
