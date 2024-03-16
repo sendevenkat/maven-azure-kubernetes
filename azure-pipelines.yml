@@ -6,23 +6,64 @@
 trigger:
 - main
 
+variables:
+- name: AzureServiceConnection
+  value: aks-connection-ltimgenie
+- name: RgName
+  value: Dev-Rg
+- name: Clustername
+  value: azuredevops-aks
+
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.11'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'acr-acconection'
-    repository: 'acr-ltimgenie-ad'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+stages:
+- stage: Build
+  jobs:
+  - job:
+
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: 'pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.11'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        goals: 'package'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'acr-acconection'
+        repository: 'acr-ltimgenie-ad'
+        tags: latest
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+
+- stage: Deploy  
+  displayName: Deploy stage
+  dependsOn: Build
+  jobs:
+    - deployment: Deploy
+      displayName: Deploy job
+      pool:
+        vmImage: "ubuntu-latest"
+      environment: 'dev' #customize with your environment
+      strategy:
+        runOnce:
+          deploy:
+            steps:             
+              - task: KubernetesManifest@1
+                displayName: Deploy to AKS
+                inputs:
+                    action: 'deploy'
+                    connectionType: 'azureResourceManager'
+                    azureSubscriptionConnection: '$(AzureServiceConnection)'
+                    azureResourceGroup: '$(RgName)'
+                    kubernetesCluster: '$(Clustername)'
+                    #namespace: dev
+                  
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/*.yml
+
