@@ -27,6 +27,12 @@ stages:
   - job:
 
     steps:
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'sonarcloud-sc'
+        organization: 'sonarcloud-azure123'
+        scannerMode: 'Other'
+
     - task: Maven@3
       inputs:
         mavenPomFile: 'pom.xml'
