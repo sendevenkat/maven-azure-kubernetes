@@ -34,6 +34,7 @@ stages:
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
         goals: 'package'
     - task: Docker@2
+      displayName: Build and push an image to container registry
       inputs:
         containerRegistry: 'acr-acconection'
         repository: 'acr-ltimgenie-ad'
