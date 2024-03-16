@@ -15,7 +15,7 @@ public class LtimgenieAzuredevopsApplication {
 	
 	@GetMapping("/")
 	public String Hello() {
-		return "welcome to ltimindtree this the LTIMGENIE v 1.9 for CICD Azure pipeline " ;
+		return "welcome to ltimindtree this the LTIMGENIE v 1.9 for CICD Azure pipeline for Azure DevOps" ;
 	}
 
 }
